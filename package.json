@@ -18,7 +18,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "engines": {
-    "node": ">=8"
+    "node": ">=6"
   },
   "scripts": {
     "lint": "eslint .",

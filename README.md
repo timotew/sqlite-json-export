@@ -2,7 +2,6 @@
 > Convert Sqlite3 tables to JSON
 
 [![Build Status](https://travis-ci.org/falcon-client/sqlite-json-export.svg?branch=master&maxAge=2592)](https://travis-ci.org/falcon-client/sqlite-json-export)
-[![Coverage Status](https://coveralls.io/repos/github/falcon-client/sqlite-json-export/badge.svg)](https://coveralls.io/github/falcon-client/sqlite-json-export)
 [![NPM version](https://badge.fury.io/js/sqlite-json-export.svg?maxAge=2592)](http://badge.fury.io/js/sqlite-json-export)
 [![Dependency Status](https://img.shields.io/david/falcon-client/sqlite-json-export.svg?maxAge=2592)](https://david-dm.org/falcon-client/sqlite-json-export)
 [![npm](https://img.shields.io/npm/dm/sqlite-json-export.svg?maxAge=2592)](https://npm-stat.com/charts.html?package=sqlite-json-export)
@@ -25,8 +24,8 @@ Create an instance of sqlite-json.
 
 Example:
 ```js
-const sqliteJsonExport = require('sqlite-json-export');
-const exporter = sqliteJsonExport('example.db');
+const SqliteJsonExport = require('sqlite-json-export');
+let exporter = new SqliteJsonExport('example.db');
 ```
 
 #### database
@@ -38,9 +37,10 @@ Type: `sqlite3.Database` or string
 Example:
 
 ```js
+const SqliteJsonExport = require('sqlite-json-export');
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('./mydb.sqlite3');
-exporter = sqliteJsonExport(db);
+const exporter = new SqliteJsonExport('example.db');
 ```
 
 ### json(sql, options, callback)
