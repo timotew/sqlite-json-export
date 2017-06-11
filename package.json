@@ -1,7 +1,7 @@
 {
   "name": "sqlite-json-export",
   "description": "Export SQLite3 tables to JSON",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "homepage": "https://github.com/falcon-client/sqlite-json-export",
   "author": {
     "name": "Falcon Team",
