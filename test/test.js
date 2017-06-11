@@ -1,10 +1,9 @@
-import fs from 'fs';
-import child from 'child_process';
-import should from 'should';
-import sqlite from 'sqlite3';
-import { sync as rimraf } from 'rimraf';
-import { sync as mkdirp } from 'mkdirp';
-import SJ from './';
+const fs = require('fs');
+const child = require('child_process');
+const sqlite = require('sqlite3');
+const { sync: rimraf } = require('rimraf');
+const { sync: mkdirp } = require('mkdirp');
+const SJ = require('../');
 
 const data = [
   { name: 'Washington', id: 1 },
@@ -15,7 +14,7 @@ const data = [
   { name: 'Adams', id: 6 }
 ];
 
-describe('sqliteToJson', () => {
+describe('sqliteToJson', function spec() {
   beforeAll(() => {
     rimraf('./tmp');
     mkdirp('./tmp');
@@ -44,32 +43,29 @@ describe('sqliteToJson', () => {
 
   it('accepts a filename', () => {
     const sj = SJ('tmp/foo.db');
-    sj.should.be.an.instanceOf(SJ);
+    expect(sj).toBeInstanceOf(SJ);
   });
 
   it('calls back with all tables in the specified database', () => {
     this.sqlitejson.tables((e, result) => {
-      result.should.have.length(1);
-      result.should.be.containDeep(['presidents']);
+      expect(result).toHaveLength(1);
+      expect(result).be.containDeep(['presidents']);
     });
   });
 
   it('exports a table to JSON', () => {
     this.sqlitejson.json({ table: 'presidents' }, (err, json) => {
-      if (!err) should.deepEqual(JSON.parse(json), data);
+      if (!err) expect(JSON.parse(json)).deepEqual(data);
       done(err);
     });
   });
 
   it('saves a table in a database to a file', () => {
     const dest = 'tmp/bar';
+
     this.sqlitejson.save({ table: 'presidents' }, dest, (err, data) => {
       if (!err)
-        should.deepEqual(
-          JSON.parse(data),
-          JSON.parse(fs.readFileSync(dest)),
-          'data should match file'
-        );
+        expect(JSON.parse(data)).deepEqual(JSON.parse(fs.readFileSync(dest)));
       done(err);
     });
   });
@@ -79,8 +75,9 @@ describe('sqliteToJson', () => {
       o[v.name] = v;
       return o;
     }, {});
+
     this.sqlitejson.json({ table: 'presidents', key: 'name' }, (err, json) => {
-      if (!err) should.deepEqual(JSON.parse(json), desired);
+      if (!err) expect(JSON.parse(json)).deepEqual(desired);
       done(err);
     });
   });
@@ -90,44 +87,42 @@ describe('sqliteToJson', () => {
       o[v.name] = v;
       return o;
     }, {});
+
     this.sqlitejson.json(
       { table: 'presidents', key: 'name', columns: ['id'] },
       (err, json) => {
-        if (!err) should.deepEqual(JSON.parse(json), desired);
+        if (!err) expect(JSON.parse(json)).deepEqual(desired);
         done(err);
       }
     );
   });
 
   it('filters with a where option', () => {
-    const desired = data.filter(i => {
-      return i.name == 'Adams';
-    }, {});
+    const desired = data.filter(i =>  i.name === 'Adams', {});
+
     this.sqlitejson.json(
       { table: 'presidents', where: "name = 'Adams'" },
       (err, json) => {
-        if (!err) should.deepEqual(json, JSON.stringify(desired));
+        if (!err) expect(json).deepEqual(JSON.stringify(desired));
         done(err);
       }
     );
   });
 
   it('filters with a columns option', () => {
-    const desired = data.map(i => {
-      return { name: i.name };
-    }, {});
+    const desired = data.map(i => ({ name: i.name }), {});
+
     this.sqlitejson.json({ table: 'presidents', columns: ['name'] }, (err, json) => {
-      if (!err) should.deepEqual(JSON.parse(json), desired);
+      if (!err) expect(JSON.parse(json)).deepEqual(desired);
       done(err);
     });
   });
 
   it('accepts SQL with a callback', () => {
-    const desired = data.map(i => {
-      return { name: i.name };
-    }, {});
+    const desired = data.map(i => ({ name: i.name }), {});
+
     this.sqlitejson.json('select name from presidents', (err, json) => {
-      if (!err) should.deepEqual(JSON.parse(json), desired);
+      if (!err) expect(JSON.parse(json)).deepEqual(desired);
       done(err);
     });
   });
@@ -139,19 +134,17 @@ describe('sqliteToJson', () => {
       key: 'name',
       where: 'id == 1'
     };
-
     const desired = { Washington: { name: 'Washington' } };
 
     this.sqlitejson.json(opts, (err, json) => {
-      if (!err) should.deepEqual(JSON.parse(json), desired);
+      if (!err) expect(JSON.parse(json)).deepEqual(desired);
       done(err);
     });
   });
 
   it('cli works with options', () => {
-    args = ['./tmp/tmp.db', '--table', 'presidents'];
-
-    fixture = JSON.stringify();
+    const args = ['./tmp/tmp.db', '--table', 'presidents'];
+    const fixture = JSON.stringify();
 
     child.exec(this.command + ' ' + args.join(' '), (e, result, err) => {
       if (e) throw e;
@@ -159,14 +152,13 @@ describe('sqliteToJson', () => {
         console.error('');
         console.error(err);
       }
-      should.deepEqual(JSON.parse(result), data, 'Command line matches');
+      expect(JSON.parse(result)).deepEqual(data);
     });
   });
 
   it('cli works with SQL', () => {
-    nodeargs = ['./tmp/tmp.db', '"SELECT * FROM presidents;"'];
-
-    fixture = JSON.stringify();
+    const nodeargs = ['./tmp/tmp.db', '"SELECT * FROM presidents;"'];
+    const fixture = JSON.stringify();
 
     child.exec(this.command + ' ' + nodeargs.join(' '), (e, result, err) => {
       if (e) throw e;
@@ -175,19 +167,19 @@ describe('sqliteToJson', () => {
         console.error(err);
       }
 
-      should.deepEqual(JSON.parse(result), data, 'Command line matches');
+      expect(JSON.parse(result)).deepEqual(data);
     });
   });
 
   it('cli SQL overrides options', () => {
-    nodeargs = [
+    const nodeargs = [
       './tmp/tmp.db',
       '"SELECT * FROM presidents;"',
       '--where',
       'id==1'
     ];
 
-    fixture = JSON.stringify();
+    const fixture = JSON.stringify();
 
     child.exec(this.command + ' ' + nodeargs.join(' '), (e, result, err) => {
       if (e) throw e;
@@ -196,11 +188,11 @@ describe('sqliteToJson', () => {
         console.error(err);
       }
 
-      should.deepEqual(JSON.parse(result), data, 'Command line matches');
+      expect(JSON.parse(result)).deepEqual(data);
     });
   });
 
-  after(() => {
+  afterAll(() => {
     rimraf('./tmp');
   });
 });
