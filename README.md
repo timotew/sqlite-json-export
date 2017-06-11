@@ -1,4 +1,4 @@
-# sqlite-json
+# sqlite-json-export
 > Convert Sqlite3 tables to JSON
 
 [![Build Status](https://travis-ci.org/falcon-client/sqlite-json-export.svg?branch=master&maxAge=2592)](https://travis-ci.org/falcon-client/sqlite-json-export)
@@ -7,39 +7,15 @@
 [![Dependency Status](https://img.shields.io/david/falcon-client/sqlite-json-export.svg?maxAge=2592)](https://david-dm.org/falcon-client/sqlite-json-export)
 [![npm](https://img.shields.io/npm/dm/sqlite-json-export.svg?maxAge=2592)](https://npm-stat.com/charts.html?package=sqlite-json-export)
 
-## Command line Interface
-
-```
-  Usage: sqlite-json [options] <database> [sql]
-
-  Export a SQLite table to JSON
-
-  Options:
-
-    -h, --help            output usage information
-    -V, --version         output the version number
-    -k, --key <key>       Key output to column
-    -t, --table <table>   table to query
-    -c, --columns <list>  Comma-delimited list of columns to output (Default: all)
-    -w, --where <clause>  WHERE clause to add to table query
-    -o, --output <file>   Save result to file
-```
-
-One can either pass SQL directly to SQLite or use the `table`, `columns` and/or `where` options to contrust a query.
-
-By default, sqlite-json returns lists of JSON objects. Use the `key` option to return an object with rows keyed to a value from your table.
-
-By default, the cli outputs to stdout. Use the `--output` option to specify a destination file.
-
-### Examples
+## Install
 
 ```bash
- sqlite-json data.db --key ID "SELECT ID, name FROM myTable"
- sqlite-json data.db --table myTable --key ID -o output.json
- sqlite-json data.db -t myTable | other_program > output.json
+npm install --save sqlite-json-export
 ```
 
-Note that currently only a single query is supported. Attaching databases or doing multiple queries will produce an error.
+### Todo:
+- [ ] Migrate to a Promise based API
+- [ ] Extract all tables
 
 ## API
 
@@ -49,8 +25,8 @@ Create an instance of sqlite-json.
 
 Example:
 ```js
-const sqliteJson = require('sqlite-json');
-const exporter = sqliteJson('example.db');
+const sqliteJsonExport = require('sqlite-json-export');
+const exporter = sqliteJsonExport('example.db');
 ```
 
 #### database
@@ -64,7 +40,7 @@ Example:
 ```js
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('./mydb.sqlite3');
-exporter = sqliteJson(db);
+exporter = sqliteJsonExport(db);
 ```
 
 ### json(sql, options, callback)
