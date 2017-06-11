@@ -57,7 +57,6 @@ describe('sqliteToJson', () => {
   it('exports a table to JSON', () => {
     this.sqlitejson.json({ table: 'presidents' }, (err, json) => {
       if (!err) should.deepEqual(JSON.parse(json), data);
-      done(err);
     });
   });
 
@@ -70,7 +69,6 @@ describe('sqliteToJson', () => {
           JSON.parse(fs.readFileSync(dest)),
           'data should match file'
         );
-      done(err);
     });
   });
 
@@ -79,9 +77,11 @@ describe('sqliteToJson', () => {
       o[v.name] = v;
       return o;
     }, {});
-    this.sqlitejson.json({ table: 'presidents', key: 'name' }, (err, json) => {
+    this.sqlitejson.json({ table: 'presidents', key: 'name' }, function(
+      err,
+      json
+    ) {
       if (!err) should.deepEqual(JSON.parse(json), desired);
-      done(err);
     });
   });
 
@@ -94,7 +94,6 @@ describe('sqliteToJson', () => {
       { table: 'presidents', key: 'name', columns: ['id'] },
       (err, json) => {
         if (!err) should.deepEqual(JSON.parse(json), desired);
-        done(err);
       }
     );
   });
@@ -107,7 +106,6 @@ describe('sqliteToJson', () => {
       { table: 'presidents', where: "name = 'Adams'" },
       (err, json) => {
         if (!err) should.deepEqual(json, JSON.stringify(desired));
-        done(err);
       }
     );
   });
@@ -116,9 +114,11 @@ describe('sqliteToJson', () => {
     const desired = data.map(i => {
       return { name: i.name };
     }, {});
-    this.sqlitejson.json({ table: 'presidents', columns: ['name'] }, (err, json) => {
+    this.sqlitejson.json({ table: 'presidents', columns: ['name'] }, function(
+      err,
+      json
+    ) {
       if (!err) should.deepEqual(JSON.parse(json), desired);
-      done(err);
     });
   });
 
@@ -128,7 +128,6 @@ describe('sqliteToJson', () => {
     }, {});
     this.sqlitejson.json('select name from presidents', (err, json) => {
       if (!err) should.deepEqual(JSON.parse(json), desired);
-      done(err);
     });
   });
 
@@ -138,13 +137,11 @@ describe('sqliteToJson', () => {
       columns: ['name'],
       key: 'name',
       where: 'id == 1'
-    };
-
-    const desired = { Washington: { name: 'Washington' } };
+    },
+      desired = { Washington: { name: 'Washington' } };
 
     this.sqlitejson.json(opts, (err, json) => {
       if (!err) should.deepEqual(JSON.parse(json), desired);
-      done(err);
     });
   });
 
