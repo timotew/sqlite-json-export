@@ -1,5 +1,5 @@
 {
-  "name": "falcon-sqlite-json",
+  "name": "sqlite-json-export",
   "description": "Convert Sqlite3 tables to JSON",
   "version": "0.0.1",
   "homepage": "https://github.com/falcon-client/falcon-sqlite-json",
@@ -30,6 +30,7 @@
     "sqlite",
     "sqlite3",
     "extract",
+    "export",
     "json"
   ],
   "dependencies": {
