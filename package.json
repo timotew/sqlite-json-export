@@ -1,46 +1,45 @@
 {
-  "name": "sqlite-json",
+  "name": "falcon-sqlite-json",
   "description": "Convert Sqlite3 tables to JSON",
-  "version": "1.0.1",
-  "homepage": "https://github.com/fitnr/sqlite-json",
+  "version": "0.0.1",
+  "homepage": "https://github.com/falcon-client/falcon-sqlite-json",
   "author": {
-    "name": "Neil Freeman",
-    "url": "http://fakeisthenewreal.org"
+    "name": "Falcon Team",
+    "email": "try.falcon.client@gmail.com"
   },
   "bin": "bin/sqlite-json.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/fitnr/sqlite-json.git"
+    "url": "git://github.com/falcon-client/falcon-sqlite-json.git"
   },
   "bugs": {
-    "url": "https://github.com/fitnr/sqlite-json/issues"
+    "url": "https://github.com/falcon-client/falcon-sqlite-json/issues"
   },
   "license": "MIT",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/fitnr/sqlite-json/blob/master/LICENSE"
-    }
-  ],
-  "main": "index.js",
+  "main": "lib/index.js",
   "engines": {
-    "node": ">= 0.12,<5"
+    "node": ">=4"
   },
   "scripts": {
-    "cover": "istanbul cover _mocha -- test.js",
-    "test": "mocha test.js"
+    "test": "jest"
   },
   "devDependencies": {
-    "mocha": "^2.2.5",
-    "rimraf": "^2.4.2",
-    "should": "^7.0.2"
+    "jest-cli": "^20.0.4"
   },
   "keywords": [
-    "sqlite sqlite3 json"
+    "sqlite",
+    "sqlite3",
+    "extract",
+    "json"
   ],
   "dependencies": {
-    "commander": "^2.8.1",
-    "mkdirp": "^0.5.1",
-    "sqlite3": "^3.1.0"
+    "commander": "^2.9.0",
+    "mkdirp": "^0.5.1"
+  },
+  "peerDependencies": {
+    "sqlite3": "^3.1.8"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
