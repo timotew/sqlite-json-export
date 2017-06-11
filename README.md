@@ -1,6 +1,12 @@
 # sqlite-json
 > Convert Sqlite3 tables to JSON
 
+[![Build Status](https://travis-ci.org/falcon-client/sqlite-json-export.svg?branch=master&maxAge=2592)](https://travis-ci.org/falcon-client/sqlite-json-export)
+[![Coverage Status](https://coveralls.io/repos/github/falcon-client/sqlite-json-export/badge.svg)](https://coveralls.io/github/falcon-client/sqlite-json-export)
+[![NPM version](https://badge.fury.io/js/sqlite-json-export.svg?maxAge=2592)](http://badge.fury.io/js/sqlite-json-export)
+[![Dependency Status](https://img.shields.io/david/falcon-client/sqlite-json-export.svg?maxAge=2592)](https://david-dm.org/falcon-client/sqlite-json-export)
+[![npm](https://img.shields.io/npm/dm/sqlite-json-export.svg?maxAge=2592)](https://npm-stat.com/charts.html?package=sqlite-json-export)
+
 ## Command line Interface
 
 ```
