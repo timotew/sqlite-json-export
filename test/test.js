@@ -23,17 +23,15 @@ describe('sqliteToJson', () => {
     const db = new sqlite.Database('./tmp/tmp.db');
     this.sqlitejson = SJ(db);
 
-    db.serialize((e) => {
+    db.serialize(e => {
       db.run('CREATE TABLE presidents (name TEXT, id INT)');
       var stmt = db.prepare('INSERT INTO presidents VALUES (?, ?)');
 
-      data.forEach((row) => {
+      data.forEach(row => {
         stmt.run(row.name, row.id);
       });
 
       stmt.finalize();
-
-      done(e);
     });
 
     desired = data.reduce((o, v) => {
@@ -53,7 +51,6 @@ describe('sqliteToJson', () => {
     this.sqlitejson.tables((e, result) => {
       result.should.have.length(1);
       result.should.be.containDeep(['presidents']);
-      done(e);
     });
   });
 
@@ -82,8 +79,8 @@ describe('sqliteToJson', () => {
       o[v.name] = v;
       return o;
     }, {});
-    this.sqlitejson.json({ table: 'presidents', key: 'name' }, (
-      err=> ,
+    this.sqlitejson.json({ table: 'presidents', key: 'name' }, function(
+      err,
       json
     ) {
       if (!err) should.deepEqual(JSON.parse(json), desired);
@@ -106,7 +103,7 @@ describe('sqliteToJson', () => {
   });
 
   it('filters with a where option', () => {
-    const desired = data.filter((i) => {
+    const desired = data.filter(i => {
       return i.name == 'Adams';
     }, {});
     this.sqlitejson.json(
@@ -119,11 +116,11 @@ describe('sqliteToJson', () => {
   });
 
   it('filters with a columns option', () => {
-    const desired = data.map((i) => {
+    const desired = data.map(i => {
       return { name: i.name };
     }, {});
-    this.sqlitejson.json({ table: 'presidents', columns: ['name'] }, (
-      err=> ,
+    this.sqlitejson.json({ table: 'presidents', columns: ['name'] }, function(
+      err,
       json
     ) {
       if (!err) should.deepEqual(JSON.parse(json), desired);
@@ -132,7 +129,7 @@ describe('sqliteToJson', () => {
   });
 
   it('accepts SQL with a callback', () => {
-    const desired = data.map((i) => {
+    const desired = data.map(i => {
       return { name: i.name };
     }, {});
     this.sqlitejson.json('select name from presidents', (err, json) => {
