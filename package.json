@@ -16,7 +16,7 @@
     "url": "https://github.com/falcon-client/sqlite-json-export/issues"
   },
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "index.js",
   "engines": {
     "node": ">=6"
   },
